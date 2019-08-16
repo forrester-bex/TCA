@@ -34,3 +34,30 @@ tca_reg <- tcareg(meth_data, tca_model, ra, C3 = NULL, test = "marginal",
       output = "TCA", sort_results = TRUE, parallel = FALSE,
       num_cores = NULL, log_file = "TCA.log", features_metadata = NULL,
       debug = TRUE)
+
+# save tca reg as r object
+saveRDS(tca_reg, file="RA_TCAreg.rds")
+
+
+tca_tensor <- tensor(meth_data, tca_model, parallel = FALSE,
+                     log_file = "TCA.log", debug = FALSE)
+
+saveRDS(tca_tensor, file="RA_TCAtensor.rds")
+
+# write TCA tensor output to file to be parsed using python script
+tca_output <- readRDS(file="RA_TCAtensor.rds")
+
+ct1 <- tca_output[[1]]
+ct2 <- tca_output[[2]]
+ct3 <- tca_output[[3]]
+ct4 <- tca_output[[4]]
+ct5 <- tca_output[[5]]
+ct6 <- tca_output[[6]]
+ct7 <- tca_output[[7]]
+write.csv(ct1, file = "ct1.csv")
+write.csv(ct2, file = "ct2.csv")
+write.csv(ct3, file = "ct3.csv")
+write.csv(ct4, file = "ct4.csv")
+write.csv(ct5, file = "ct5.csv")
+write.csv(ct6, file = "ct6.csv")
+
