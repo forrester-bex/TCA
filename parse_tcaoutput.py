@@ -11,7 +11,8 @@ with open(rankedlist, 'r') as r:
 		ranked.append(cpg)
 
 # create a list of the top 100 discriminatory cpgs
-top = ranked[:100]
+#top = ranked[:100]
+top = ranked[:50]
 
 filelist = glob.glob('ct[1-6].csv')
 
@@ -43,5 +44,26 @@ for entry in celltypes:
 
 counter = 1
 for entry in finalframes:
-	entry.to_csv("celltype"+str(counter)+'top100.csv')
+	entry.to_csv("tcacelltype"+str(counter)+'top100.csv')
 	counter += 1
+
+
+
+cellt = []
+cpgs = []
+for entry in celltypes:
+	data = []
+	for cpg in entry:
+		data.append(cpg[1])
+		if cpg[0] not in cpgs:
+			cpgs.append(cpg[0])
+	cellt.append(data)	
+
+# create joint matrix
+joint_df = pandas.DataFrame(cellt)
+joint_df = joint_df.transpose()
+joint_df['cpgs'] = cpgs
+joint_df = joint_df.set_index('cpgs')
+joint_df.columns=['celltype1', 'celltype2', 'celltype3', 'celltype4', 'celltype5', 'celltype6']
+# export to csv
+joint_df.to_csv("tca_allcelltypes_top100discrim.csv")

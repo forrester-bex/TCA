@@ -22,7 +22,7 @@ cell_proportions <- data.matrix(read.csv('cell_proportions_houseman.csv', row.na
 tca_model <- tca(meth_data, cell_proportions, C1=covars, C2=ra, refit_W=TRUE)
 
 # write tca output to file
-saveRDS(tca_output, file = "RA_TCAmodels.rds")
+saveRDS(tca_model, file = "RA_TCAmodels.rds")
 
 # re-load tca output
 tca_model <-  readRDS(file="RA_TCAmodels.rds")
@@ -46,6 +46,7 @@ saveRDS(tca_tensor, file="RA_TCAtensor.rds")
 
 # write TCA tensor output to file to be parsed using python script
 tca_output <- readRDS(file="RA_TCAtensor.rds")
+tca_reg <- readRDS(file="RA_TCAreg.rds")
 
 ct1 <- tca_output[[1]]
 ct2 <- tca_output[[2]]
@@ -60,4 +61,17 @@ write.csv(ct3, file = "ct3.csv")
 write.csv(ct4, file = "ct4.csv")
 write.csv(ct5, file = "ct5.csv")
 write.csv(ct6, file = "ct6.csv")
+
+pvalct1 <- tca_reg[[1]][[9]]
+pvalct2 <- tca_reg[[2]][[9]]
+pvalct3 <- tca_reg[[3]][[9]]
+pvalct4 <- tca_reg[[4]][[9]]
+pvalct5 <- tca_reg[[5]][[9]]
+pvalct6 <- tca_reg[[6]][[9]]
+write.csv(pvalct1, file = "pvalct1.csv")
+write.csv(pvalct2, file = "pvalct2.csv")
+write.csv(pvalct3, file = "pvalct3.csv")
+write.csv(pvalct4, file = "pvalct4.csv")
+write.csv(pvalct5, file = "pvalct5.csv")
+write.csv(pvalct6, file = "pvalct6.csv")
 
